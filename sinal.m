@@ -24,7 +24,7 @@
 
 function [xt,fc,phi,t]=sinal(tempo,fcmin,fcmax)  % temo em segundos
  % Definições no tempo:
- Fs = 8000;                   % amostras por segundo
+ Fs = 1000;                   % amostras por segundo
  dt = 1/Fs;                   % segundos por amostras
  StopTime = tempo;            % intervalo de duração dos sinais em segundos
  t = 0:dt:StopTime-dt;        % segundos
