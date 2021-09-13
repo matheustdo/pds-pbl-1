@@ -1,16 +1,17 @@
 clear; clc;
 clear all;
 close all;
-[xt,fc,phi,t]=sinal(2,1,5000);
+[xt,fc,phi,t]=sinal(2,1,3000);
 filtro = designfilt('lowpassiir', 'PassbandFrequency', 1000, 'StopbandFrequency', 1200, 'PassbandRipple', 1, 'StopbandAttenuation', 60, 'SampleRate', 8000);
 sinal_filtrado = filter(filtro, xt);
 
 figure(2)
+subplot(2,1,1);
 plot(t,sinal_filtrado)
 title('Sinal Filtrado');
 Fs=8000;
 
-figure(3)
+subplot(2,1,2);
 y3=fft(sinal_filtrado); grid on;
 yaux=fliplr(y3(1,2:end));
 X=[yaux y3];
@@ -29,11 +30,12 @@ fs = 2200;
 trem = square(4400*pi*t);
 s_amostrado = trem .* sinal_filtrado;
 
-figure(4)
+figure(3)
+subplot(2,1,1);
 stem(t, s_amostrado);
 title('Sinal Amostrado');
 
-figure(5)
+subplot(2,1,2);
 y4=fft(s_amostrado); grid on;
 yaux=fliplr(y4(1,2:end));
 X=[yaux y4];
@@ -53,10 +55,10 @@ yC = downsample(s_amostrado,2);
 figure(6)
 plot(yC);
 grid on
-title('Resultado da Convers√£o D/C');
+title('Resultado da Convers„o D/C');
 
 figure(7);
-title('Compara√ß√£o da amostragem entre Sinal Amostrado e Sinal Cont√≠nuo');
+title('ComparaÁ„o da amostragem entre Sinal Amostrado e Sinal ContÌnuo');
 subplot(2,1,1)
 stem(0:300,s_amostrado(1:301),'filled','MarkerSize',3)
 grid on

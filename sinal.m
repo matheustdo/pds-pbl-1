@@ -42,21 +42,21 @@ function [xt,fc,phi,t]=sinal(tempo,fcmin,fcmax)  % temo em segundos
  
 % Graficando
 % Dominio do tempo
+% figure(1);
+% subplot(3,1,1);
+% plot(t(1:200),x(1,1:200),'r',t(1:200),x(2,1:200),'g',t(1:200),x(10,1:200),'m');
+% xlabel('Tempo  $t$(s)','interpreter','latex');
+% ylabel('Amplitude');
+% title('Sinais $x_{1}(t)$, $x_{2}(t)$, $x_{10}(t)$','interpreter','latex');
 figure(1);
-subplot(3,1,1);
-plot(t(1:200),x(1,1:200),'r',t(1:200),x(2,1:200),'g',t(1:200),x(10,1:200),'m');
-xlabel('Tempo  $t$(s)','interpreter','latex');
-ylabel('Amplitude');
-title('Sinais $x_{1}(t)$, $x_{2}(t)$, $x_{10}(t)$','interpreter','latex');
-
-subplot(3,1,2);
+subplot(2,1,1);
 plot(t,xt,'b');
 xlabel('Tempo  $t$(s)','interpreter','latex');
 ylabel('Amplitude');
 title('Sinal de entrada $x_{c}(t)$','interpreter','latex');
 
 % Dominio da frequência  
-subplot(3,1,3);
+subplot(2,1,2);
 y=fft(xt); grid on;
 yaux=fliplr(y(1,2:end));
 X=[yaux y];
