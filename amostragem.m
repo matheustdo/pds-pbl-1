@@ -39,7 +39,7 @@ stem(t, s_amostrado, 'filled','MarkerSize',3);
 title('Sinal Amostrado');
 xlabel('Tempo(s)','interpreter','latex');
 ylabel('Amplitude');
-legend('Sinal Contínuo', 'Sinal Discreto');
+legend('Sinal Contínuo', 'Sinal Amostrado');
 
 subplot(2,1,2);
 y4=fft(s_amostrado); grid on;
@@ -71,7 +71,7 @@ for i=1:1:Ts(length(Ts))
         sinal_discreto(i) = 0;
     end
 end
-figure(7)
+figure(4)
 subplot(2,1,1);
 stem(n,sinal_discreto);
 title('Sinal Discreto');
@@ -94,15 +94,41 @@ xlabel('$f$(Hz)','interpreter','latex');
 ylabel('Magnitude');
 title('Espectro Sinal Discreto');
 
-yC = downsample(s_amostrado,2);
-figure(4);
+ft = 2000;
+tt = Ts./ft;
+sinal_continuo = zeros(1);
+k = 1;
+for i=0:2:Ts(length(Ts)-1)
+    if i==0
+        sinal_continuo(k) = sinal_discreto(i+1); 
+    else
+       sinal_continuo(k) = sinal_discreto(i); 
+    end
+    k = k+1;
+end
+sinal_continuo(k) = sinal_discreto(length(sinal_discreto));
+figure(5)
 subplot(2,1,1);
-yC(2000) = 0;
-plot(t,yC);
-grid on
-title('Resultado da Conversão D/C');
+plot(tt,sinal_continuo);
+title('Sinal Contínuo Y');
 xlabel('Tempo(s)','interpreter','latex');
-ylabel('Amplitude');
+ylabel('$y_{r}(t)$','interpreter','latex');
+
+subplot(2,1,2);
+y4=fft(sinal_continuo); grid on;
+yaux=fliplr(y4(1,2:end));
+X=[yaux y4];
+X(1,1:length(X)/4)=0;
+X(1,3*length(X)/4:end)=0;
+length(X);
+omega=0:Fs/length(y4):Fs-(Fs/length(y4));
+waux=-fliplr(omega(1,2:end));
+w=[waux omega];
+length(w);
+plot(w,abs(2*X/length(t)));
+xlabel('$f$(Hz)','interpreter','latex');
+ylabel('Magnitude');
+title('Espectro Sinal Contínuo');
 
 % title('Comparação da amostragem entre Sinal Amostrado e Sinal Contínuo');
 % subplot(2,1,2);
@@ -116,26 +142,11 @@ ylabel('Amplitude');
 % xlabel('Sample Number')
 % ylabel('Interpolated')
 % grid on
-subplot(2,1,2);
-y4=fft(yC); grid on;
-yaux=fliplr(y4(1,2:end));
-X=[yaux y4];
-X(1,1:length(X)/4)=0;
-X(1,3*length(X)/4:end)=0;
-length(X);
-omega=0:Fs/length(y4):Fs-(Fs/length(y4));
-waux=-fliplr(omega(1,2:end));
-w=[waux omega];
-length(w);
-plot(w,abs(2*X/length(t)));
-xlabel('$f$(Hz)','interpreter','latex');
-ylabel('Magnitude');
-title('Espectro Sinal Convertido D/C');
 
 filtro = designfilt('lowpassiir', 'PassbandFrequency', 1000, 'StopbandFrequency', 1200, 'PassbandRipple', 1, 'StopbandAttenuation', 60, 'SampleRate', 8000);
-sinal_filtrado_yC = filter(filtro, yC);
+sinal_filtrado_yC = filter(filtro, sinal_continuo);
 
-figure(5)
+figure(6)
 subplot(2,1,1);
 plot(t,sinal_filtrado_yC)
 title('Sinal Filtrado');
@@ -158,11 +169,10 @@ xlabel('$f$(Hz)','interpreter','latex');
 ylabel('Magnitude');
 title('Espectro Sinal Convertido Y');
 
-figure(6)
-
+figure(7)
 plot(t,sinal_filtrado);
 hold on;
-plot(t,sinal_filtrado_yC);
+plot(tt,sinal_continuo);
 title('Comparação dos sinais de entrada e reconstruído');
 legend('Sinal de Entrada Filtrado', 'Sinal de Saída Filtrado');
 xlabel('Tempo(s)','interpreter','latex');
