@@ -65,7 +65,6 @@ length(w);
 plot(w,abs(2*X/length(t)));
 xlabel('$f$(Hz)','interpreter','latex');
 ylabel('Magnitude');
-title('Espectro $|X(j2\pi f)|$ sem o filtro','interpreter','latex');
 
 % Figura 2: Espectro de x(t) com o filtro
 figure(2)
@@ -83,7 +82,6 @@ length(w);
 plot(w,abs(2*X/length(t)));
 xlabel('$f$(Hz)','interpreter','latex');
 ylabel('Magnitude');
-title('Espectro $|X(j2\pi f)|$ com o filtro','interpreter','latex');
 
 % Figura 2: Espectro de x[n]
 figure(2)
@@ -101,4 +99,27 @@ length(w);
 plot(w,abs(2*X/length(t)));
 xlabel('$f$(Hz)','interpreter','latex');
 ylabel('Magnitude');
-title('Espectro $|X_{s}(j2\pi f)|$','interpreter','latex');
+
+%% Reconstrução
+
+sinal_reconstruido = sinal_amostrado*sinc(fs*(ones(length(n),1)*t-(n*Ts)'*ones(1, length(t))));
+
+figure(3)
+subplot(3,1,1);
+plot(t, sinal_filtrado);
+xlabel('$t$','Interpreter','LaTex','FontSize',18);
+ylabel('$x_c(t)$','Interpreter','LaTex','FontSize',18);
+
+subplot(3,1,2);
+plot(t, sinal_reconstruido);
+xlabel('$t$','Interpreter','LaTex','FontSize',18);
+ylabel('$x_r(t)$','Interpreter','LaTex','FontSize',18);
+
+subplot(3,1,3);
+plot(t, sinal_filtrado);
+hold;
+plot(t, sinal_reconstruido);
+xlabel('$t$','Interpreter','LaTex','FontSize',18)
+ylabel('$x_r(t),x_c(t)$','Interpreter','LaTex','FontSize',18)
+
+plot(t, sinal_reconstruido);
