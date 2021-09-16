@@ -1,7 +1,7 @@
 clear; clc;
 clear all;
 close all;
-[xt,fc,phi,t]=sinal(2,10,1000);
+[xt,fc,phi,t]=sinal(2,10,4000);
 filtro = designfilt('lowpassiir', 'PassbandFrequency', 1000, 'StopbandFrequency', 1500, 'PassbandRipple', 1, 'StopbandAttenuation', 60, 'SampleRate', 8000);
 sinal_filtrado = filter(filtro, xt);
 sinal_filtrado = 3*sinal_filtrado;
@@ -9,7 +9,7 @@ figure(2)
 subplot(2,1,1);
 plot(t,sinal_filtrado)
 title('Sinal Filtrado');
-Fs=1000;
+Fs=8000;
 
 subplot(2,1,2);
 y3=fft(sinal_filtrado); grid on;
@@ -27,7 +27,7 @@ xlabel('$f$(Hz)','interpreter','latex');
 ylabel('Magnitude');
 title('Espectro Sinal Filtrado');
 
-trem = square(4000*pi*t);
+trem = square(32000*pi*t);
 s_amostrado = trem .* sinal_filtrado;
 
 
@@ -58,19 +58,11 @@ ylabel('Magnitude');
 title('Espectro Sinal Amostrado');
 
 % 4000pi = 2pif, logo f = 2000
-fs = 2000;
-Ts = fs.*t;
-sinal_discreto = zeros(1);
-n = 1:1:Ts(length(Ts));
-j = 1;
-for i=1:1:Ts(length(Ts))
-    if rem(round(Ts(j)),i) == 0
-        sinal_discreto(i) = s_amostrado(j);
-        j = j+1;
-    else
-        sinal_discreto(i) = 0;
-    end
-end
+fs = 16000;
+Ts = fs*t;
+sinal_discreto = s_amostrado;
+n = 0:2:Ts(length(Ts))+1;
+
 figure(4)
 subplot(2,1,1);
 stem(n,sinal_discreto);
@@ -94,19 +86,9 @@ xlabel('$f$(Hz)','interpreter','latex');
 ylabel('Magnitude');
 title('Espectro Sinal Discreto');
 
-ft = 2000;
+ft = 16000;
 tt = Ts./ft;
-sinal_continuo = zeros(1);
-k = 1;
-for i=0:2:Ts(length(Ts)-1)
-    if i==0
-        sinal_continuo(k) = sinal_discreto(i+1); 
-    else
-       sinal_continuo(k) = sinal_discreto(i); 
-    end
-    k = k+1;
-end
-sinal_continuo(k) = sinal_discreto(length(sinal_discreto));
+sinal_continuo = sinal_discreto;
 figure(5)
 subplot(2,1,1);
 plot(tt,sinal_continuo);
@@ -178,4 +160,7 @@ legend('Sinal de Entrada Filtrado', 'Sinal de Saída Filtrado');
 xlabel('Tempo(s)','interpreter','latex');
 ylabel('Amplitude');
 
+% sound(sinal_filtrado,Fs);
+% pause(5);
+% sound(sinal_continuo,Fs);
 
