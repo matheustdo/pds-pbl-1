@@ -112,7 +112,7 @@ nd = 0 : 1 : Nd-1;
 figure(3)
 plot(t_amostrado, sinal_amostrado, t_subamostrado, sinal_subamostrado);
 xlabel('$t_d$','Interpreter','LaTex','FontSize',18);
-ylabel('$y(nT), y(nT_d)$','Interpreter','LaTex','FontSize',18);
+ylabel('$y(nT), y[nT_d]$','Interpreter','LaTex','FontSize',18);
 
 
 %% Reconstrução
