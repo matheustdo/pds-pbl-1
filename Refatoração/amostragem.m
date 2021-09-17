@@ -13,8 +13,8 @@ ffc = f/fs; % Pega o quanto fs é menor que f
 
 Ts = 1/fs;
 N = length(t)/ffc; % A quantidade de amostras é 1/fcc menor do que o tamanho de amostras iniciais
-n = [0 : 1 : N-1];
-t_amostrado = [0 : Ts : n(N)*Ts];
+n = 0 : 1 : N-1;
+t_amostrado = 0 : Ts : n(N)*Ts;
 sinal_amostrado = zeros(1);
 k = 0;
 
@@ -123,3 +123,5 @@ xlabel('$t$','Interpreter','LaTex','FontSize',18)
 ylabel('$x_r(t),x_c(t)$','Interpreter','LaTex','FontSize',18)
 
 plot(t, sinal_reconstruido);
+
+sound(sinal_reconstruido, fs);
