@@ -126,7 +126,6 @@ ylabel('$x_r(t),x_c(t)$','Interpreter','LaTex','FontSize',18)
 plot(t, sinal_reconstruido);
 
 audiowrite('audio_reconstruido.wav', sinal_reconstruido, f);
-sound(y_audio, f);
-pause(length(xt)/f);
-pause(2);
-sound(sinal_reconstruido, f);
+sound(y_audio, f)
+pause(length(xt)/f)
+sound(sinal_reconstruido, f)
