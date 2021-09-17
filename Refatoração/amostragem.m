@@ -174,14 +174,14 @@ legend('x_{cc}','y_{cc}');
 
 figure(8);
 subplot(2,1,1);
-plot(t, xt);
-hold;
 plot(t, sinal_reconstruido);
+hold;
+plot(t, xt);
 xlabel('$t$(s)','Interpreter','LaTex')
 ylabel('Amplitude')
 title('$y_{cc}(t)$ e $x(t)$ ','Interpreter','LaTex','FontSize',14);
 axis([0 0.05 -inf inf]);
-legend('x','y_{cc}');
+legend('y','x');
 
 subplot(2,1,2);
 plot(w,abs(2*X/length(t)));
@@ -199,8 +199,9 @@ length(w);
 plot(w,abs(2*X/length(t)));
 xlabel('$f$(Hz)','interpreter','latex');
 ylabel('Magnitude');
-title('$|Y_{cc}(j\omega)|$ e $|X(j\omega)|$','Interpreter','LaTex','FontSize',14);
+title('$|Y(j\omega)|$ e $|X(j\omega)|$','Interpreter','LaTex','FontSize',14);
 axis([-8000 8000 -inf inf])
+legend('y','x');
 
 %sound(sinal_reconstruido, f);
 
