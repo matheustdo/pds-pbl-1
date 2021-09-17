@@ -9,7 +9,7 @@ filtro = designfilt('lowpassiir', 'PassbandFrequency', 1000, 'StopbandFrequency'
 sinal_filtrado = filter(filtro, xt);
 
 %% Etapa 2 => Amostragem
-fs = 2000; % Frequência de amostragem em Hz
+fs = 4000; % Frequência de amostragem em Hz
 ffc = f/fs; % Pega o quanto fs é menor que f
 
 Ts = 1/fs;
@@ -101,9 +101,24 @@ plot(w,abs(2*X/length(t)));
 xlabel('$f$(Hz)','interpreter','latex');
 ylabel('Magnitude');
 
+%% Mudança da taxa de amostragem
+
+M = 2
+sinal_subamostrado = downsample(sinal_amostrado,M);
+t_subamostrado = downsample(t_amostrado,M);
+Td = M*Ts;
+fd = 1/Td;
+Nd = N/M;
+nd = 0 : 1 : Nd-1;
+figure(3)
+plot(t_amostrado, sinal_amostrado, t_subamostrado, sinal_subamostrado);
+xlabel('$t_d$','Interpreter','LaTex','FontSize',18);
+ylabel('$y(nT), y(nT_d)$','Interpreter','LaTex','FontSize',18);
+
+
 %% Reconstrução
 
-sinal_reconstruido = sinal_amostrado*sinc(fs*(ones(length(n),1)*t-(n*Ts)'*ones(1, length(t))));
+sinal_reconstruido = sinal_subamostrado*sinc(fd*(ones(length(nd),1)*t-(nd*Td)'*ones(1, length(t))));
 
 figure(3)
 subplot(3,1,1);
